@@ -1,4 +1,15 @@
 function foo() {
-    var a = arguments[0] !== (void 0) ? arguments[0] : 2;
-    console.log(a);
+    var something = 'cool'
+    var another = [1, 2, 3]
+
+    function doSomething() {
+        console.log(something)
+    }
+    doSomething()
+
+    function doAnother() {
+        console.log(another.join('!'))
+    }
+    doAnother()
 }
+foo()
