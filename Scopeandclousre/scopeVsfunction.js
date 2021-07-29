@@ -49,3 +49,60 @@ doSomething(2)
 doSomethingElse(2) //doSomethingElse is not defined
 because is still in the local scope 
 */
+
+
+////////////////////////////////
+
+var obj = {
+    id: 'awesome',
+    cool: function coolFn() {
+        console.log(this.id) //awesome
+            // console.log(id) // not awesome
+    }
+}
+var id = 'not awesome'
+
+obj.cool() // awesome
+
+setTimeout(obj.cool, 100) //undefined .. ?
+
+////////////////////////////////
+
+var obj = {
+    count: 0,
+    cool: function coolFn() {
+        var self = this
+
+        if (self.count < 1) {
+            /*
+            setTimeout(() => {
+                this.count++
+                console.log('awesome?)
+            ,100})
+            */
+            //the same but using arrow function
+            setTimeout(function timer() {
+                self.count++
+                    console.log('awesome?');
+            }, 100)
+        }
+    }
+}
+obj.cool() // awesome?
+
+////////////////////////////////
+
+var obj = {
+    count: 0,
+    cool: function coolFn() {
+        if (this.count < 1) {
+            setTimeout(function timer() {
+                this.count++; // `this` is safe
+                // because of `bind(..)`
+                console.log("more awesome");
+            }.bind(this), 100); // look, `bind()`!
+        }
+    }
+};
+
+obj.cool()

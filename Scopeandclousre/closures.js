@@ -162,3 +162,74 @@ for (let i = 1; i <= 5; i++) {
         console.log(i);
     }, i * 1000);
 }
+
+////////////////////////////////
+
+var foo = (function coolModule() {
+    var something = 'cool'
+    var another = [1, 2, 3]
+
+    function doSomething() {}
+    console.log(something)
+
+    function doAnother() {
+        console.log(another.join('!'))
+    }
+    return {
+        doSomething: doSomething,
+        doAnother: doAnother,
+    }
+})()
+
+foo.doSomething()
+foo.doAnother()
+
+////////////////////////////////
+
+function coolModule(id) {
+    function identity() {
+        console.log(id);
+    }
+    return {
+        identity: identity
+    }
+}
+var foo1 = coolModule('foo 1')
+var foo2 = coolModule('foo 2')
+
+foo1.identity() // foo 1
+foo2.identity() // foo 2
+
+/*
+
+By retaining an inner reference to the public API object inside your module
+instance, you can modify that module instance from the in‐ side, including 
+adding and removing methods and properties, and changing their values.
+
+
+*/
+
+
+var foo = (function coolModule(id) {
+    function change() {
+        // modified the public api
+        publicAPI.identity = identity2
+    }
+
+    function identity1() {
+        console.log(id);
+    }
+
+    function identity2() {
+        console.log(id.toUpperCase());
+    }
+    var publicAPI = {
+        change: change,
+        identity: identity1,
+    }
+    return publicAPI
+})('foo module')
+
+foo.identity() // foo module
+foo.change()
+foo.identity() // FOO MODULE
